@@ -106,7 +106,7 @@ def send_welcome(message):
 def at_answer(message):
     texts = message.text.split()
     at_text = find_at(texts)
-    doc = open('message.txt').read()
+    doc = open('test.txt').read()
     bot.reply_to(message, doc)
 
 
