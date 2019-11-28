@@ -45,7 +45,7 @@ def get_part(filename):
     tomorrow = pendulum.tomorrow('Europe/Moscow').format('DD.MM.20YY') + days.get(weekday + 1)
     count = 0
 
-    with open('test.txt', 'w') as output:
+    with open(filename, 'w+') as output:
         for d in timetable:
             count += 1
             if d.strip() == today:
@@ -82,7 +82,7 @@ def update_data():
     if os.stat('test.html').st_size != 0:
         parser_data('test.html')
         get_part('text.txt')
-        sorting('test.txt')
+        sorting('text.txt')
 
 
 def find_at(msg):
@@ -106,7 +106,7 @@ def send_welcome(message):
 def at_answer(message):
     texts = message.text.split()
     at_text = find_at(texts)
-    doc = open('test.txt').read()
+    doc = open('text.txt').read()
     bot.reply_to(message, doc)
 
 
