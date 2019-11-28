@@ -45,7 +45,7 @@ def get_part(filename):
     tomorrow = pendulum.tomorrow('Europe/Moscow').format('DD.MM.20YY') + days.get(weekday + 1)
     count = 0
 
-    with open(filename, 'w+') as output:
+    with open('test.txt', 'w+') as output:
         for d in timetable:
             count += 1
             if d.strip() == today:
@@ -65,20 +65,14 @@ def sorting(filename):
     strings = []
     lines_seen = set()  # holds lines already seen
     lines = open(filename).readlines()
-    # with open(filename, 'w+') as outfile:
     for line in reversed(lines):
         if line not in lines_seen:  # not a duplicate
             strings.append(line)
             lines_seen.add(line)
-    with open(filename, 'w+') as outfile:
+    with open('message.txt', 'w+') as outfile:
         for line in reversed(strings):
             outfile.write(line)
     outfile.close()
-    # with open(filename, 'w+') as out:
-    #     liness = open(filename).readlines()
-    #     for line in reversed(liness):
-    #         out.write(line)
-    # out.close()
 
 
 # полная жопа надо переформить
@@ -88,12 +82,7 @@ def update_data():
     if os.stat('test.html').st_size != 0:
         parser_data('test.html')
         get_part('text.txt')
-        sorting('text.txt')
-
-
-# update_data()
-#
-# doc = open('text.txt').read()
+        sorting('test.txt')
 
 
 def find_at(msg):
@@ -104,6 +93,7 @@ def find_at(msg):
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
+    update_data()
     bot.reply_to(message, 'Welcome')
 
 
@@ -114,10 +104,9 @@ def send_welcome(message):
 
 @bot.message_handler(func=lambda msg: msg.text is not None and 'timetable' in msg.text)
 def at_answer(message):
-    update_data()
     texts = message.text.split()
     at_text = find_at(texts)
-    doc = open('text.txt').read()
+    doc = open('message.txt').read()
     bot.reply_to(message, doc)
 
 
@@ -130,7 +119,8 @@ def getMessage():
 @server.route("/")
 def webhook():
     bot.remove_webhook()
-    bot.set_webhook(url='https://polar-brushlands-12740.herokuapp.com/' + '872790813:AAEvC64G7mZhNFbmBUOmc-hYvqhTpM56pw0')
+    bot.set_webhook(
+        url='https://polar-brushlands-12740.herokuapp.com/' + '872790813:AAEvC64G7mZhNFbmBUOmc-hYvqhTpM56pw0')
     return "!", 200
 
 
