@@ -69,7 +69,7 @@ def sorting(filename):
         if line not in lines_seen:  # not a duplicate
             strings.append(line)
             lines_seen.add(line)
-    with open('message.txt', 'w') as outfile:
+    with open(filename, 'w+') as outfile:
         for line in reversed(strings):
             outfile.write(line)
     outfile.close()
