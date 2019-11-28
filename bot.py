@@ -45,7 +45,7 @@ def get_part(filename):
     tomorrow = pendulum.tomorrow('Europe/Moscow').format('DD.MM.20YY') + days.get(weekday + 1)
     count = 0
 
-    with open('test.txt', 'w+') as output:
+    with open('test.txt', 'w') as output:
         for d in timetable:
             count += 1
             if d.strip() == today:
@@ -69,7 +69,7 @@ def sorting(filename):
         if line not in lines_seen:  # not a duplicate
             strings.append(line)
             lines_seen.add(line)
-    with open('message.txt', 'w+') as outfile:
+    with open('message.txt', 'w') as outfile:
         for line in reversed(strings):
             outfile.write(line)
     outfile.close()
