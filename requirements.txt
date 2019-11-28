@@ -9,7 +9,6 @@ Click==7.0
 constantly==15.1.0
 cryptography==2.1.4
 cssselect==1.1.0
-cupshelpers==1.0
 defer==1.0.6
 distro-info===0.18ubuntu0.18.04.1
 Django==2.2.7
