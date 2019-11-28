@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+
 import telebot
 from bs4 import BeautifulSoup
 from requests import get
@@ -7,11 +8,32 @@ import datetime
 from datetime import datetime
 import pendulum
 from flask import Flask, request
-import time
 
 TOKEN = '872790813:AAEvC64G7mZhNFbmBUOmc-hYvqhTpM56pw0'
 bot = telebot.TeleBot(token=TOKEN)
 server = Flask(__name__)
+
+
+def read_file(filename):
+    with open(filename) as input_file:
+        text = input_file.read()
+    return text
+
+
+def get_html():
+    url = 'https://rasp.unecon.ru/raspisanie_grp.php?searched=1&g=12244'  # url
+    r = get(url)
+    with open('test.html', 'w') as output_file:
+        output_file.write(r.text)
+
+
+def parser_data(filename):
+    get_html()
+    text = read_file(filename)
+    soup = BeautifulSoup(text, 'html.parser')
+    days = soup.find('table', {'class': ''})
+    handle = open("text.txt", "w")
+    handle.write(days.get_text())
 
 
 def get_part(filename):
@@ -23,7 +45,7 @@ def get_part(filename):
     tomorrow = pendulum.tomorrow('Europe/Moscow').format('DD.MM.20YY') + days.get(weekday + 1)
     count = 0
 
-    with open('text_message.txt', 'w') as output:
+    with open(filename, 'w+') as output:
         for d in timetable:
             count += 1
             if d.strip() == today:
@@ -36,46 +58,42 @@ def get_part(filename):
 
 
 def sorting(filename):
+    # time_lessons = {1: '09:00 - 10:35', 2: '10:50 - 12:25',
+    #                 3: '12:40 - 14:15', 4: '14:30 - 16:00', 5: '16:10 - 17:40'}
+    lessons = {'09:00 - 10:35', '10:50 - 12:25', '12:40 - 14:15',
+               '14:30 - 16:00', '16:10 - 17:40'}
+    strings = []
     lines_seen = set()  # holds lines already seen
-    outfile = open('test.txt', "w")
-    for line in open(filename, "r"):
+    lines = open(filename).readlines()
+    # with open(filename, 'w+') as outfile:
+    for line in reversed(lines):
         if line not in lines_seen:  # not a duplicate
-            outfile.write(line)
+            strings.append(line)
             lines_seen.add(line)
+    with open(filename, 'w+') as outfile:
+        for line in reversed(strings):
+            outfile.write(line)
     outfile.close()
+    # with open(filename, 'w+') as out:
+    #     liness = open(filename).readlines()
+    #     for line in reversed(liness):
+    #         out.write(line)
+    # out.close()
 
 
-def get_html():
-    url = 'https://rasp.unecon.ru/raspisanie_grp.php?searched=1&g=12244'  # url
-    r = get(url)
-    with open('test.html', 'w') as output_file:
-        output_file.write(r.text)
-
-
-def read_file(filename):
-    with open(filename) as input_file:
-        text = input_file.read()
-    return text
-
-
-def parser_data(filename):
-    text = read_file(filename)
-    soup = BeautifulSoup(text, 'html.parser')
-    days = soup.find('table', {'class': ''})
-    handle = open("text.txt", "w")
-    handle.write(days.get_text())
-
+# полная жопа надо переформить
 
 def update_data():
     get_html()
     if os.stat('test.html').st_size != 0:
         parser_data('test.html')
         get_part('text.txt')
-        sorting('text_message.txt')
+        sorting('text.txt')
 
 
-update_data()
-doc = open('test.txt').read()
+# update_data()
+#
+# doc = open('text.txt').read()
 
 
 def find_at(msg):
@@ -96,8 +114,10 @@ def send_welcome(message):
 
 @bot.message_handler(func=lambda msg: msg.text is not None and 'timetable' in msg.text)
 def at_answer(message):
+    update_data()
     texts = message.text.split()
     at_text = find_at(texts)
+    doc = open('text.txt').read()
     bot.reply_to(message, doc)
 
 
@@ -110,7 +130,7 @@ def getMessage():
 @server.route("/")
 def webhook():
     bot.remove_webhook()
-    bot.set_webhook(url='https://dudos.herokuapp.com/' + TOKEN)
+    bot.set_webhook(url='https://polar-brushlands-12740.herokuapp.com/' + '872790813:AAEvC64G7mZhNFbmBUOmc-hYvqhTpM56pw0')
     return "!", 200
 
 
