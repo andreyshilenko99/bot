@@ -114,17 +114,17 @@ def gen_markup():
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_query(call):
-    update_data()
-    doc = open('text.txt').read()
     if call.data == "cb_yes":
-        bot.send_message(call.chat.id, doc)
+        bot.send_message(call.id, "Timetable")
     elif call.data == "cb_no":
         bot.answer_callback_query(call.id, "Answer is No")
 
 
 @bot.message_handler(func=lambda message: True)
 def message_handler(message):
-    bot.send_message(message.chat.id, "Timetable/no?", reply_markup=gen_markup())
+    update_data()
+    doc = open('text.txt').read()
+    bot.send_message(message.chat.id, doc, reply_markup=gen_markup())
 
 
 # @bot.message_handler(func=lambda msg: msg.text is not None and 'timetable' in msg.text)
