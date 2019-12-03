@@ -7,6 +7,7 @@ import datetime
 from datetime import datetime
 import pendulum
 from flask import Flask, request
+from telebot import types
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 TOKEN = '872790813:AAEvC64G7mZhNFbmBUOmc-hYvqhTpM56pw0'
@@ -104,27 +105,15 @@ def send_welcome(message):
 #     bot.reply_to(message, 'To use this bot, send word timetable')
 
 
-def gen_markup():
-    markup = InlineKeyboardMarkup()
-    markup.row_width = 2
-    markup.add(InlineKeyboardButton("Timetable", callback_data="cb_yes"),
-               InlineKeyboardButton("No", callback_data="cb_no"))
-    return markup
-
-
-@bot.callback_query_handler(func=lambda call: True)
-def callback_query(call):
-    if call.data == "cb_yes":
-        bot.send_message(call.id, "Timetable")
-    elif call.data == "cb_no":
-        bot.answer_callback_query(call.id, "Answer is No")
-
-
-@bot.message_handler(func=lambda message: True)
-def message_handler(message):
-    update_data()
+@bot.message_handler(commands=["geophone"])
+def geophone(message):
     doc = open('text.txt').read()
-    bot.send_message(message.chat.id, doc, reply_markup=gen_markup())
+    # Эти параметры для клавиатуры необязательны, просто для удобства
+    keyboard = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
+    button_phone = types.KeyboardButton(text="timetable", request_contact=True)
+    button_geo = types.KeyboardButton(text="timetable", request_location=True)
+    keyboard.add(button_phone, button_geo)
+    bot.send_message(message.chat.id, doc, reply_markup=keyboard)
 
 
 # @bot.message_handler(func=lambda msg: msg.text is not None and 'timetable' in msg.text)
