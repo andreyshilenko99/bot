@@ -16,7 +16,6 @@ keyrings.alt==3.0
 pip-tools==4.3.0
 pipreqs==0.4.10
 pycrypto==2.6.1
-pygobject==3.26.1
 pyxdg==0.25
 requests==2.22.0
 SecretStorage==2.3.1
