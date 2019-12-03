@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import pyowm
 import os
 import telebot
 from bs4 import BeautifulSoup
@@ -8,11 +9,26 @@ from datetime import datetime
 import pendulum
 from flask import Flask, request
 from telebot import types
-from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 TOKEN = '872790813:AAEvC64G7mZhNFbmBUOmc-hYvqhTpM56pw0'
 bot = telebot.TeleBot(token=TOKEN)
 server = Flask(__name__)
+
+
+def temp():
+    api = pyowm.OWM('9742b30206ebcadb2a29fa96eea64442')
+    data = api.weather_at_place("Saint Petersburg,ru")
+    weather = data.get_weather()
+    temperature = weather.get_temperature('celsius')
+    clouds = weather.get_clouds()
+    t = str(temperature.get('temp')) + '°C'
+    wind = weather.get_wind()
+
+    if 0 <= clouds <= 5:
+        str_weather = 'Сейчас ' + t + ' Безоблачно ' + str(wind.get('speed')) + 'm/s'
+    else:
+        str_weather = 'Сейчас ' + t + ' Облачно ' + 'Ветер ' + str(wind.get('speed')) + 'm/s'
+    return str_weather
 
 
 def read_file(filename):
@@ -58,25 +74,56 @@ def get_part(filename):
                         break
 
 
+def get_part_tomorrow(filename):
+    timetable = open(filename).readlines()
+    days = {0: 'ПН', 1: 'ВТ', 2: 'СР', 3: 'ЧТ', 4: 'ПТ', 5: 'СБ', 6: 'ВС'}
+    date = datetime.today().strftime('%d.%m.%Y')
+    weekday = datetime.today().weekday()
+    tomorrow = pendulum.tomorrow('Europe/Moscow').format('DD.MM.20YY') + days.get(weekday + 1)
+    nextmorrow = pendulum.now('Europe/Moscow').add(days=2).format('DD.MM.20YY') + days.get(weekday + 2)
+    count = 0
+
+    with open(filename, 'w+') as output:
+        for d in timetable:
+            count += 1
+            if d.strip() == tomorrow:
+                other_days = timetable[count - 1:timetable.index(timetable[-1]):1]
+                for i in other_days:
+                    if i.strip() != nextmorrow:
+                        output.write(i)
+                    else:
+                        break
+
+
 def sorting(filename):
-    # time_lessons = {1: '09:00 - 10:35', 2: '10:50 - 12:25',
-    #                 3: '12:40 - 14:15', 4: '14:30 - 16:00', 5: '16:10 - 17:40'}
-    lessons = {'09:00 - 10:35', '10:50 - 12:25', '12:40 - 14:15',
-               '14:30 - 16:00', '16:10 - 17:40'}
     strings = []
-    lines_seen = set()  # holds lines already seen
+    lessons = {'09:00 - 10:35': 0, '10:50 - 12:25': 1, '12:40 - 14:15': 2}
+    # добавить время пар, проверить если есть позже
+    next_lessons = {0: '10:50 - 12:25', 1: '12:40 - 14:15', 2: '14:30 - 16:00'}
+    lines_seen = set()
+    lines_seen.add('\n')
     lines = open(filename).readlines()
-    for line in reversed(lines):
-        if line not in lines_seen:  # not a duplicate
-            strings.append(line)
-            lines_seen.add(line)
+    lines.remove(lines[0])
+    first_lesson = lessons.get(lines[0].strip())
+    next_lesson = next_lessons.get(first_lesson)
+
+    for line in lines:
+        if line not in lines_seen:
+            if line.strip() != next_lesson:
+                strings.append(line)
+                lines_seen.add(line)
+            else:
+                strings.append('\n')
+                lines_seen.clear()
+                lines_seen.add('\n')
+                lines_seen.add(line)
+                strings.append(line)
+                next_lesson = next_lessons.get(first_lesson + 1)
     with open(filename, 'w+') as outfile:
-        for line in reversed(strings):
+        for line in strings:
             outfile.write(line)
     outfile.close()
 
-
-# полная жопа надо переформить
 
 def update_data():
     get_html()
@@ -86,43 +133,41 @@ def update_data():
         sorting('text.txt')
 
 
-def find_at(msg):
-    for text in msg:
-        if 'timetable' in text:
-            return text
+def update_data_tomorrow():
+    get_html()
+    if os.stat('test.html').st_size != 0:
+        parser_data('test.html')
+        get_part_tomorrow('text.txt')
+        sorting('text.txt')
 
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
-    update_data()
-    bot.reply_to(message, 'Welcome')
+    bot.reply_to(message, 'Приветствую', reply_markup=keyboard())
 
 
-#
-#
-# @bot.message_handler(commands=['help'])
-# def send_welcome(message):
-#     bot.reply_to(message, 'To use this bot, send word timetable')
+@bot.message_handler(content_types=["text"])
+def send_anytext(message):
+    global text
+    chat_id = message.chat.id
+    if message.text == 'На сегодня':
+        update_data()
+        text = open('text.txt').read()
+    if message.text == 'На завтра':
+        update_data_tomorrow()
+        text = open('text.txt').read()
+    if message.text == 'Погода☁':
+        text = temp()
+    bot.send_message(chat_id, text, reply_markup=keyboard())
 
 
-@bot.message_handler(commands=["geophone"])
-def geophone(message):
-    doc = open('text.txt').read()
-    # Эти параметры для клавиатуры необязательны, просто для удобства
-    keyboard = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
-    button_phone = types.KeyboardButton(text="timetable", request_contact=True)
-    button_geo = types.KeyboardButton(text="timetable", request_location=True)
-    keyboard.add(button_phone, button_geo)
-    bot.send_message(message.chat.id, doc, reply_markup=keyboard)
-
-
-# @bot.message_handler(func=lambda msg: msg.text is not None and 'timetable' in msg.text)
-# def at_answer(message):
-#     update_data()
-#     texts = message.text.split()
-#     at_text = find_at(texts)
-#     doc = open('text.txt').read()
-#     bot.reply_to(message, doc)
+def keyboard():
+    markup = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True)
+    btn1 = types.KeyboardButton('На сегодня')
+    btn2 = types.KeyboardButton('На завтра')
+    btn3 = types.KeyboardButton('Погода☁')
+    markup.add(btn1, btn2, btn3)
+    return markup
 
 
 @server.route('/' + TOKEN, methods=['POST'])

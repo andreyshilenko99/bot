@@ -9,6 +9,7 @@ pendulum==2.0.5
 pyTelegramBotAPI==3.6.6
 python-dateutil==2.8.1
 pytzdata==2019.3
+pyowm==2.10.0
 requests==2.7.0
 six==1.13.0
 soupsieve==1.9.5
