@@ -91,10 +91,10 @@ def find_at(msg):
             return text
 
 
-@bot.message_handler(commands=['start'])
-def send_welcome(message):
-    update_data()
-    bot.reply_to(message, 'Welcome')
+# @bot.message_handler(commands=['start'])
+# def send_welcome(message):
+#     update_data()
+#     bot.reply_to(message, 'Welcome')
 
 
 #
@@ -114,9 +114,10 @@ def gen_markup():
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_query(call):
+    update_data()
     doc = open('text.txt').read()
     if call.data == "cb_yes":
-        bot.send_message(call.id, doc)
+        bot.send_message(call.chat.id, doc)
     elif call.data == "cb_no":
         bot.answer_callback_query(call.id, "Answer is No")
 
