@@ -116,7 +116,7 @@ def gen_markup():
 def callback_query(call):
     doc = open('text.txt').read()
     if call.data == "cb_yes":
-        bot.answer_callback_query(call.id, doc)
+        bot.send_message(call.id, doc)
     elif call.data == "cb_no":
         bot.answer_callback_query(call.id, "Answer is No")
 
