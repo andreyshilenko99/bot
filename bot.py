@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import os
-
 import telebot
 from bs4 import BeautifulSoup
 from requests import get
@@ -8,6 +7,7 @@ import datetime
 from datetime import datetime
 import pendulum
 from flask import Flask, request
+from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 TOKEN = '872790813:AAEvC64G7mZhNFbmBUOmc-hYvqhTpM56pw0'
 bot = telebot.TeleBot(token=TOKEN)
@@ -91,10 +91,12 @@ def find_at(msg):
             return text
 
 
-# @bot.message_handler(commands=['start'])
-# def send_welcome(message):
-#     update_data()
-#     bot.reply_to(message, 'Welcome')
+@bot.message_handler(commands=['start'])
+def send_welcome(message):
+    update_data()
+    bot.reply_to(message, 'Welcome')
+
+
 #
 #
 # @bot.message_handler(commands=['help'])
@@ -102,13 +104,35 @@ def find_at(msg):
 #     bot.reply_to(message, 'To use this bot, send word timetable')
 
 
-@bot.message_handler(func=lambda msg: msg.text is not None and 'timetable' in msg.text)
-def at_answer(message):
-    update_data()
-    texts = message.text.split()
-    at_text = find_at(texts)
+def gen_markup():
+    markup = InlineKeyboardMarkup()
+    markup.row_width = 2
+    markup.add(InlineKeyboardButton("Timetable", callback_data="cb_yes"),
+               InlineKeyboardButton("No", callback_data="cb_no"))
+    return markup
+
+
+@bot.callback_query_handler(func=lambda call: True)
+def callback_query(call):
     doc = open('text.txt').read()
-    bot.reply_to(message, doc)
+    if call.data == "cb_yes":
+        bot.answer_callback_query(call.id, doc)
+    elif call.data == "cb_no":
+        bot.answer_callback_query(call.id, "Answer is No")
+
+
+@bot.message_handler(func=lambda message: True)
+def message_handler(message):
+    bot.send_message(message.chat.id, "Timetable/no?", reply_markup=gen_markup())
+
+
+# @bot.message_handler(func=lambda msg: msg.text is not None and 'timetable' in msg.text)
+# def at_answer(message):
+#     update_data()
+#     texts = message.text.split()
+#     at_text = find_at(texts)
+#     doc = open('text.txt').read()
+#     bot.reply_to(message, doc)
 
 
 @server.route('/' + TOKEN, methods=['POST'])
