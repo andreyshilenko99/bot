@@ -27,7 +27,7 @@ def temp():
     if 0 <= clouds <= 5:
         str_weather = 'Сейчас ' + t + ' Безоблачно ' + str(wind.get('speed')) + 'm/s'
     else:
-        str_weather = 'Сейчас ' + t + ' Облачно ' + 'Ветер ' + str(wind.get('speed')) + 'm/s'
+        str_weather = 'Сейчас ' + t + '\nОблачно ' + '\nВетер ' + str(wind.get('speed')) + 'm/s'
     return str_weather
 
 
@@ -77,7 +77,6 @@ def get_part(filename):
 def get_part_tomorrow(filename):
     timetable = open(filename).readlines()
     days = {0: 'ПН', 1: 'ВТ', 2: 'СР', 3: 'ЧТ', 4: 'ПТ', 5: 'СБ', 6: 'ВС'}
-    date = datetime.today().strftime('%d.%m.%Y')
     weekday = datetime.today().weekday()
     tomorrow = pendulum.tomorrow('Europe/Moscow').format('DD.MM.20YY') + days.get(weekday + 1)
     nextmorrow = pendulum.now('Europe/Moscow').add(days=2).format('DD.MM.20YY') + days.get(weekday + 2)
@@ -106,6 +105,7 @@ def sorting(filename):
     lines.remove(lines[0])
     first_lesson = lessons.get(lines[0].strip())
     next_lesson = next_lessons.get(first_lesson)
+    t = 0
 
     for line in lines:
         if line not in lines_seen:
@@ -118,7 +118,8 @@ def sorting(filename):
                 lines_seen.add('\n')
                 lines_seen.add(line)
                 strings.append(line)
-                next_lesson = next_lessons.get(first_lesson + 1)
+                t += 1
+                next_lesson = next_lessons.get(first_lesson + t)
     with open(filename, 'w+') as outfile:
         for line in strings:
             outfile.write(line)
@@ -148,17 +149,17 @@ def send_welcome(message):
 
 @bot.message_handler(content_types=["text"])
 def send_anytext(message):
-    global text
+    global texts
     chat_id = message.chat.id
     if message.text == 'На сегодня':
         update_data()
-        text = open('text.txt').read()
+        texts = open('text.txt').read()
     if message.text == 'На завтра':
         update_data_tomorrow()
-        text = open('text.txt').read()
+        texts = open('text.txt').read()
     if message.text == 'Погода☁':
-        text = temp()
-    bot.send_message(chat_id, text, reply_markup=keyboard())
+        texts = temp()
+    bot.send_message(chat_id, texts, reply_markup=keyboard())
 
 
 def keyboard():
@@ -171,7 +172,7 @@ def keyboard():
 
 
 @server.route('/' + TOKEN, methods=['POST'])
-def getMessage():
+def get_message():
     bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
     return "!", 200
 
