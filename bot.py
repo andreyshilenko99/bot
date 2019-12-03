@@ -104,6 +104,7 @@ def find_at(msg):
 
 @bot.message_handler(func=lambda msg: msg.text is not None and 'timetable' in msg.text)
 def at_answer(message):
+    update_data()
     texts = message.text.split()
     at_text = find_at(texts)
     doc = open('text.txt').read()
