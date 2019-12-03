@@ -97,9 +97,9 @@ def get_part_tomorrow(filename):
 
 def sorting(filename):
     strings = []
-    lessons = {'09:00 - 10:35': 0, '10:50 - 12:25': 1, '12:40 - 14:15': 2}
+    lessons = {'09:00 - 10:35': 0, '10:50 - 12:25': 1, '12:40 - 14:15': 2, '14:30 - 16:00': 3}
     # добавить время пар, проверить если есть позже
-    next_lessons = {0: '10:50 - 12:25', 1: '12:40 - 14:15', 2: '14:30 - 16:00'}
+    next_lessons = {0: '10:50 - 12:25', 1: '12:40 - 14:15', 2: '14:30 - 16:00', 3: '16:10 - 17:40'}
     lines_seen = set()
     lines_seen.add('\n')
     lines = open(filename).readlines()
