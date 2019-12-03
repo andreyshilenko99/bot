@@ -38,7 +38,7 @@ def read_file(filename):
 
 
 def get_html():
-    url = 'https://rasp.unecon.ru/raspisanie_grp.php?searched=1&g=12244'  # url
+    url = 'https://rasp.unecon.ru/raspisanie_grp.php?g=11808'  # url
     r = get(url)
     with open('test.html', 'w') as output_file:
         output_file.write(r.text)
