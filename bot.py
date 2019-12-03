@@ -91,15 +91,15 @@ def find_at(msg):
             return text
 
 
-@bot.message_handler(commands=['start'])
-def send_welcome(message):
-    update_data()
-    bot.reply_to(message, 'Welcome')
-
-
-@bot.message_handler(commands=['help'])
-def send_welcome(message):
-    bot.reply_to(message, 'To use this bot, send word timetable')
+# @bot.message_handler(commands=['start'])
+# def send_welcome(message):
+#     update_data()
+#     bot.reply_to(message, 'Welcome')
+#
+#
+# @bot.message_handler(commands=['help'])
+# def send_welcome(message):
+#     bot.reply_to(message, 'To use this bot, send word timetable')
 
 
 @bot.message_handler(func=lambda msg: msg.text is not None and 'timetable' in msg.text)
