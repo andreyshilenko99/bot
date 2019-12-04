@@ -160,13 +160,11 @@ def read_group(message):
     chat_id = message.chat.id
     if message.text == 'ИБ-1802':
         get_html('https://rasp.unecon.ru/raspisanie_grp.php?g=12244')
-        bot.send_message(chat_id, 'понял вас', reply_markup=keyboard())
     if message.text == 'ИБ-1801':
         get_html('https://rasp.unecon.ru/raspisanie_grp.php?g=12057')
-        bot.send_message(chat_id, 'понял вас', reply_markup=keyboard())
     if message.text == 'Э-1702':
         get_html('https://rasp.unecon.ru/raspisanie_grp.php?g=11808')
-        bot.send_message(chat_id, 'понял вас', reply_markup=keyboard())
+    bot.send_message(chat_id, 'понял вас', reply_markup=keyboard())
 
 
 @bot.message_handler(content_types=["text"])
