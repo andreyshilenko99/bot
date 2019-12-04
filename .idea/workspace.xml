@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7eb24cbe-d191-410a-902c-f93bada0b9c0" name="Default Changelist" comment="" />
+    <list default="true" id="7eb24cbe-d191-410a-902c-f93bada0b9c0" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -22,7 +32,28 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.уфау">
+    <configuration name="уфау" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="bot" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/уфау.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="bot" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="bot" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -46,6 +77,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.уфау" />
         <item itemvalue="Python.bot" />
       </list>
     </recent_temporary>
@@ -96,33 +128,41 @@
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state x="693" y="301" width="524" height="502" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1575401181285" />
-    <state width="1897" height="258" key="GridCell.Tab.0.bottom" timestamp="1575401032079">
+    <state x="813" y="447" key="Github.ShareDialog" timestamp="1575404285942">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1897" height="258" key="GridCell.Tab.0.bottom/0.27.1920.1053@0.27.1920.1053" timestamp="1575401032079" />
-    <state width="1897" height="258" key="GridCell.Tab.0.center" timestamp="1575401032078">
+    <state x="813" y="447" key="Github.ShareDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1575404285942" />
+    <state width="937" height="258" key="GridCell.Tab.0.bottom" timestamp="1575485911981">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1897" height="258" key="GridCell.Tab.0.center/0.27.1920.1053@0.27.1920.1053" timestamp="1575401032078" />
-    <state width="1897" height="258" key="GridCell.Tab.0.left" timestamp="1575401032078">
+    <state width="937" height="258" key="GridCell.Tab.0.bottom/0.27.1920.1053@0.27.1920.1053" timestamp="1575485911981" />
+    <state width="937" height="258" key="GridCell.Tab.0.center" timestamp="1575485911980">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1897" height="258" key="GridCell.Tab.0.left/0.27.1920.1053@0.27.1920.1053" timestamp="1575401032078" />
-    <state width="1897" height="258" key="GridCell.Tab.0.right" timestamp="1575401032079">
+    <state width="937" height="258" key="GridCell.Tab.0.center/0.27.1920.1053@0.27.1920.1053" timestamp="1575485911980" />
+    <state width="937" height="258" key="GridCell.Tab.0.left" timestamp="1575485911980">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1897" height="258" key="GridCell.Tab.0.right/0.27.1920.1053@0.27.1920.1053" timestamp="1575401032079" />
+    <state width="937" height="258" key="GridCell.Tab.0.left/0.27.1920.1053@0.27.1920.1053" timestamp="1575485911980" />
+    <state width="937" height="258" key="GridCell.Tab.0.right" timestamp="1575485911980">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="937" height="258" key="GridCell.Tab.0.right/0.27.1920.1053@0.27.1920.1053" timestamp="1575485911980" />
     <state x="449" y="187" key="SettingsEditor" timestamp="1575401080710">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state x="449" y="187" key="SettingsEditor/0.27.1920.1053@0.27.1920.1053" timestamp="1575401080710" />
-    <state x="616" y="380" key="com.intellij.ide.util.TipDialog" timestamp="1575398341723">
+    <state x="616" y="380" key="com.intellij.ide.util.TipDialog" timestamp="1575485943437">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state x="616" y="380" key="com.intellij.ide.util.TipDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1575398341723" />
+    <state x="616" y="380" key="com.intellij.ide.util.TipDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1575485943437" />
     <state x="1456" y="552" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1575399655063">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state x="1456" y="552" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.27.1920.1053@0.27.1920.1053" timestamp="1575399655063" />
+    <state x="349" y="27" width="760" height="1009" key="dock-window-1" timestamp="1575486042099">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="349" y="27" width="760" height="1009" key="dock-window-1/0.27.1920.1053@0.27.1920.1053" timestamp="1575486042099" />
   </component>
 </project>

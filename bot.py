@@ -37,13 +37,6 @@ def read_file(filename):
     return text
 
 
-def get_html():
-    url = 'https://rasp.unecon.ru/raspisanie_grp.php?g=12244'  # url
-    r = get(url)
-    with open('test.html', 'w') as output_file:
-        output_file.write(r.text)
-
-
 def parser_data(filename):
     get_html()
     text = read_file(filename)
@@ -144,7 +137,33 @@ def update_data_tomorrow():
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
-    bot.reply_to(message, 'Приветствую', reply_markup=keyboard())
+    bot.reply_to(message, 'Приветствую', reply_markup=start_keyboard())
+
+
+def start_keyboard():
+    markup = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True)
+    btn1 = types.KeyboardButton('ИБ-1802')
+    btn2 = types.KeyboardButton('ИБ-1801')
+    btn3 = types.KeyboardButton('Э-1702')
+    markup.add(btn1, btn2, btn3)
+    return markup
+
+
+def get_html(url):
+    r = get(url)
+    with open('test.html', 'w') as output_file:
+        output_file.write(r.text)
+
+
+@bot.message_handler(content_types=["text"])
+def read_group(message):
+    if message.text == 'ИБ-1802':
+        get_html('https://rasp.unecon.ru/raspisanie_grp.php?g=12244')
+    if message.text == 'ИБ-1801':
+        get_html('https://rasp.unecon.ru/raspisanie_grp.php?g=12057')
+    if message.text == 'Э-1702':
+        get_html('https://rasp.unecon.ru/raspisanie_grp.php?g=11808')
+    bot.send_message(reply_markup=keyboard())
 
 
 @bot.message_handler(content_types=["text"])
