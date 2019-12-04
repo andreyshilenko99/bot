@@ -159,11 +159,13 @@ def get_html(url):
 def read_group(message):
     if message.text == 'ИБ-1802':
         get_html('https://rasp.unecon.ru/raspisanie_grp.php?g=12244')
+        bot.send_message(reply_markup=keyboard())
     if message.text == 'ИБ-1801':
         get_html('https://rasp.unecon.ru/raspisanie_grp.php?g=12057')
+        bot.send_message(reply_markup=keyboard())
     if message.text == 'Э-1702':
         get_html('https://rasp.unecon.ru/raspisanie_grp.php?g=11808')
-    bot.send_message(reply_markup=keyboard())
+        bot.send_message(reply_markup=keyboard())
 
 
 @bot.message_handler(content_types=["text"])
