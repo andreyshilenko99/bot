@@ -38,7 +38,6 @@ def read_file(filename):
 
 
 def parser_data(filename):
-    get_html()
     text = read_file(filename)
     soup = BeautifulSoup(text, 'html.parser')
     days = soup.find('table', {'class': ''})
