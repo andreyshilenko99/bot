@@ -138,7 +138,7 @@ def send_welcome(message):
 
 
 def start_keyboard():
-    markup1 = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True)
+    markup1 = types.ReplyKeyboardMarkup(one_time_keyboard=False, resize_keyboard=True)
     btn1 = types.KeyboardButton('ИБ-1802')
     btn2 = types.KeyboardButton('ИБ-1801')
     btn3 = types.KeyboardButton('Э-1702')
