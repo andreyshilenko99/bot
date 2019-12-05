@@ -10,7 +10,7 @@ import pendulum
 from flask import Flask, request
 from telebot import types
 
-TOKEN = '872790813:AAEvC64G7mZhNFbmBUOmc-hYvqhTpM56pw0'
+TOKEN = 'token'
 bot = telebot.TeleBot(token=TOKEN)
 server = Flask(__name__)
 
