@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-import asyncio
-
 import pyowm
 import os
 import telebot
@@ -135,11 +133,10 @@ def update_data_tomorrow():
 
 
 @bot.message_handler(commands=['start'])
-async def send_welcome(message):
-    action = "typing"
-    await bot.send_chat_action(chat_id=message.chat.id, action=action)
-    await asyncio.sleep(1)
-    await bot.reply_to(message, 'Приветствую', reply_markup=start_keyboard())
+def send_welcome(message):
+    chat_id = message.chat.id
+    bot.send_chat_action(chat_id=chat_id, action='typing')
+    bot.reply_to(message, 'Приветствую', reply_markup=start_keyboard())
 
 
 def start_keyboard():
@@ -159,8 +156,9 @@ def get_html(url):
 
 @bot.message_handler(content_types=["text"])
 def read_group(message):
-    global texts
     chat_id = message.chat.id
+    bot.send_chat_action(chat_id=chat_id, action='typing')
+    global texts
     if message.text == 'ИБ-1802':
         get_html('https://rasp.unecon.ru/raspisanie_grp.php?g=12244')
         bot.send_message(chat_id, 'понял вас', reply_markup=keyboard())
