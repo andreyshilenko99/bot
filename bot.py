@@ -135,7 +135,7 @@ def update_data_tomorrow():
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
-    bot.reply_to(message, 'Приветствую', reply_markup1=start_keyboard())
+    bot.reply_to(message, 'Приветствую', reply_markup=start_keyboard())
 
 
 def start_keyboard():
