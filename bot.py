@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import asyncio
+
 import pyowm
 import os
 import telebot
@@ -133,8 +135,11 @@ def update_data_tomorrow():
 
 
 @bot.message_handler(commands=['start'])
-def send_welcome(message):
-    bot.reply_to(message, 'Приветствую', reply_markup=start_keyboard())
+async def send_welcome(message):
+    action = "typing"
+    await bot.send_chat_action(chat_id=message.chat.id, action=action)
+    await asyncio.sleep(1)
+    await bot.reply_to(message, 'Приветствую', reply_markup=start_keyboard())
 
 
 def start_keyboard():
