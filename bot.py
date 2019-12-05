@@ -174,22 +174,9 @@ def read_group(message):
             texts = open('text.txt').read()
         if message.text == 'Погода☁':
             texts = temp()
+        if message.text == 'Выбор группы':
+            bot.send_message(chat_id, 'понял вас', reply_markup=start_keyboard())
         bot.send_message(chat_id, texts, reply_markup=keyboard())
-
-
-# @bot.message_handler(content_types=["text"])
-# def send_anytext(message):
-#     global texts
-#     chat_id = message.chat.id
-#     if message.text == 'На сегодня':
-#         update_data()
-#         texts = open('text.txt').read()
-#     if message.text == 'На завтра':
-#         update_data_tomorrow()
-#         texts = open('text.txt').read()
-#     if message.text == 'Погода☁':
-#         texts = temp()
-#     bot.send_message(chat_id, texts, reply_markup=keyboard())
 
 
 def keyboard():
@@ -197,7 +184,8 @@ def keyboard():
     btn1 = types.KeyboardButton('На сегодня')
     btn2 = types.KeyboardButton('На завтра')
     btn3 = types.KeyboardButton('Погода☁')
-    markup.add(btn1, btn2, btn3)
+    btn4 = types.KeyboardButton('Выбор группы')
+    markup.add(btn1, btn2, btn3, btn4)
     return markup
 
 
