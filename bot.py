@@ -135,16 +135,16 @@ def update_data_tomorrow():
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
-    bot.reply_to(message, 'Приветствую', reply_markup=start_keyboard())
+    bot.reply_to(message, 'Приветствую', reply_markup1=start_keyboard())
 
 
 def start_keyboard():
-    markup = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True)
+    markup1 = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True)
     btn1 = types.KeyboardButton('ИБ-1802')
     btn2 = types.KeyboardButton('ИБ-1801')
     btn3 = types.KeyboardButton('Э-1702')
-    markup.add(btn1, btn2, btn3)
-    return markup
+    markup1.add(btn1, btn2, btn3)
+    return markup1
 
 
 def get_html(url):
