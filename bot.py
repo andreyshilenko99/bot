@@ -169,14 +169,16 @@ def read_group(message):
         if message.text == 'На сегодня':
             update_data()
             texts = open('text.txt').read()
+            bot.send_message(chat_id, texts, reply_markup=keyboard())
         if message.text == 'На завтра':
             update_data_tomorrow()
             texts = open('text.txt').read()
+            bot.send_message(chat_id, texts, reply_markup=keyboard())
         if message.text == 'Погода☁':
             texts = temp()
+            bot.send_message(chat_id, texts, reply_markup=keyboard())
         if message.text == 'Выбор группы':
             bot.send_message(chat_id, 'понял вас', reply_markup=start_keyboard())
-        bot.send_message(chat_id, texts, reply_markup=keyboard())
 
 
 def keyboard():
